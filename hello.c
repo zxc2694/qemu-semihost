@@ -1,26 +1,65 @@
 #include <stdio.h>
+#include <string.h>
 #include <inttypes.h>
+#include <stdlib.h> 
+#include <time.h>
 
-#define READ_COUNTER_ADDR 0x40050000
+#define range 42
 
-int32_t *read_counter = (int32_t *) READ_COUNTER_ADDR;
 int main(void)
 {
-	printf("This is a test program for QEMU counter device\n");
-	printf("See http://github.com/krasin/qemu-counter for more details\n\n");
-	printf("Let's check if the Read Counter device presented\n");
-	for (int i = 0; i < 10; i++) {
-		printf("The device has been accessed for %"PRId32" times!\n", *read_counter);
+	FILE * fd ;
+	int a[10], r[10];
+	char i,j;
+	int sum;
+	srand(time(NULL));
+
+	printf("\n");
+	printf("This is a lottery game by semihost system\n");
+	printf("Select six number (rang: 0 ~ 42 ):\n");
+	printf("Please key in  your number:\n");
+	
+	fd = fopen("My_lottery.txt","a");  
+	fprintf(fd ,"=================================\n\n");
+	fprintf(fd ,"This is your number:\n");
+	for(i=0;i<6;i++)
+	{
+		scanf("%d" ,&a[i]);
+		fprintf(fd , "%d  ",a[i]);
 	}
-	int32_t now = *read_counter;
-	if (now == 0) {
-		printf("ERROR - No Read Counter detected\n");
+	fprintf(fd ,"\n\n");
+	for(i=0;i<6;i++)
+	{
+		r[i]=rand()%range+1; 
 	}
-	else if (now == 11) {
-		printf("OK - Read Counter works as intended\n");
+	fprintf(fd ,"This is random number:\n");
+	for(i=0;i<6;i++)
+	{
+		fprintf(fd ,"%d  ",r[i]);
 	}
-	else {
-		printf("ERROR - Something is wrong with Read Counter\n");
+	for(j=0;j<6;j++)
+	{
+		for(i=0;i<6;i++)
+		{
+			if(r[j]==a[i])
+			sum=sum+1;
+		}
 	}
+	fprintf(fd ,"\n\n");
+	if(sum>0)
+	{
+		printf("Luckly! you win lottery in %d number...\n\n",sum);
+		fprintf(fd,"Luckly! you win lottery in %d number...\n\n",sum);
+	}
+	else
+	{
+		printf("Oh! you are unfortunate...");
+		fprintf(fd,"Oh! you are unfortunate...");
+	}
+	fprintf(fd ,"\n\n");
 	return 0;
+
 }
+
+
+
