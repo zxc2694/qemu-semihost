@@ -16,7 +16,7 @@ int main(void)
 
 	printf("\n");
 	printf("This is a lottery game by semihost system\n");
-	printf("Select six number (rang: 0 ~ 42 ):\n");
+	printf("Select six number (rang: 0 ~ %d ):\n",range);
 	printf("Please key in  your number:\n");
 	
 	fd = fopen("My_lottery.txt","a");  
